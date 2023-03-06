@@ -1,5 +1,5 @@
 import React from 'react';
-import BookImg from '../../Images/BooksImages/book-bookhive-1000.png';
+import BookImg from '../../../Images/BooksImages/book-bookhive-1000.png';
 import BookComponent from './BookComponent';
 
 const Carousel: React.FC = () => {
