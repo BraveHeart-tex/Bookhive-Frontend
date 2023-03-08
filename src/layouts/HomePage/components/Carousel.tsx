@@ -62,7 +62,10 @@ const Carousel: React.FC = () => {
   }
 
   return (
-    <div className='container mt-5' style={{ height: 550 }}>
+    <div
+      className='container mt-5 d-flex justify-content-center'
+      style={{ minHeight: '100vh', flexDirection: 'column' }}
+    >
       <div className='homepage-carousel-title'>
         <h3>Find your next bedside book.</h3>
       </div>
@@ -118,18 +121,17 @@ const Carousel: React.FC = () => {
             <span className='visually-hidden'>Next</span>
           </button>
         </div>
-
-        {/* Mobile only */}
-        <div className='d-lg-none mt-3'>
-          <div className='row d-flex justify-content-center align-items-center'>
-            <BookComponent book={books[7]} key={books[7].id} />
-          </div>
+      </div>
+      {/* Mobile only */}
+      <div className='d-lg-none mt-3'>
+        <div className='row d-flex justify-content-center align-items-center'>
+          <BookComponent book={books[7]} key={books[7].id} />
         </div>
-        <div className='homepage-carousel-title mt-3'>
-          <a className='btn btn-outline-secondary' href='#'>
-            View More
-          </a>
-        </div>
+      </div>
+      <div className='homepage-carousel-title mt-3'>
+        <a className='btn btn-outline-dark' href='#'>
+          View More
+        </a>
       </div>
     </div>
   );

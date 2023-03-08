@@ -1,7 +1,7 @@
 import React from 'react';
 const Hero: React.FC = () => {
   return (
-    <div>
+    <section style={{ minHeight: '100vh' }}>
       <div className='d-none d-lg-block'>
         <div className='row g-0 mt-5'>
           <div className='col-sm-6 col-md-6'>
@@ -9,7 +9,7 @@ const Hero: React.FC = () => {
           </div>
           <div className='col-4 col-md-4 container d-flex justify-content-center align-items-center'>
             <div className='ml-2'>
-              <h1>What have you been reading?</h1>
+              <h1 className='mb-4'>What have you been reading?</h1>
               <p className='lead'>
                 The BookHive team would love to know what you have been reading.
                 Whether it is to learn a new skill or grow within one, we will
@@ -30,7 +30,7 @@ const Hero: React.FC = () => {
                         justify-content-center align-items-center'
           >
             <div className='ml-2'>
-              <h1>Our collection is always changing!</h1>
+              <h1 className='mb-4'>Our collection is always changing!</h1>
               <p className='lead'>
                 Check in daily as our collection is always changing! We work
                 nonstop to provide the most accurate book selection possible for
@@ -79,7 +79,7 @@ const Hero: React.FC = () => {
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 

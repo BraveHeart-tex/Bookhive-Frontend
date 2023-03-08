@@ -11,6 +11,7 @@ const BookComponent: React.FC<{ book: BookModel }> = ({ book }) => {
             src={book.img}
             width='151'
             height='233'
+            style={{ height: '233px', width: '151px' }}
             alt='Book'
             className='rounded'
           />
@@ -19,6 +20,7 @@ const BookComponent: React.FC<{ book: BookModel }> = ({ book }) => {
             src={BookImg}
             width='151'
             height='233'
+            style={{ height: '233px', width: '151px' }}
             alt='Book'
             className='rounded'
           />
