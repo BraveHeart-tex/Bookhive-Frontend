@@ -4,6 +4,11 @@ import Spinner from '../Utils/Spinner';
 import SearchBook from './components/SearchBook';
 import Pagination from '../Utils/Pagination';
 
+interface ICategory {
+  name: string;
+  abbreviation: string;
+}
+
 const SearchBooksPage: React.FC = () => {
   const [books, setBooks] = useState<BookModel[]>([]);
   const [loading, setLoading] = useState<Boolean>(true);
@@ -12,14 +17,34 @@ const SearchBooksPage: React.FC = () => {
   const [booksPerPage, setBooksPerPage] = useState<number>(5);
   const [totalAmountOfBooks, setTotalAmountOfBooks] = useState<number>(0);
   const [totalPages, setTotalPages] = useState<number>(0);
+  const [search, setSearch] = useState<string>('');
+  const [searchUrl, setSearchUrl] = useState<string>('');
+  const [categorySelection, setCategorySelection] =
+    useState<string>('Book category');
+
+  const categories = [
+    { name: 'All', abbreviation: 'All' },
+    { name: 'Front End', abbreviation: 'fe' },
+    { name: 'Back End', abbreviation: 'be' },
+    { name: 'Data Science', abbreviation: 'data' },
+    { name: 'DevOps', abbreviation: 'devops' },
+  ];
 
   useEffect(() => {
     const fetchBooks = async () => {
       const baseUrl: string = `http://localhost:8080/api/books`;
 
-      const url: string = `${baseUrl}?page=${
-        currentPage - 1
-      }&size=${booksPerPage}`;
+      let url: string = ``;
+
+      if (searchUrl === '') {
+        url = `${baseUrl}?page=${currentPage - 1}&size=${booksPerPage}`;
+      } else {
+        let searchWithPage = search.replace(
+          '<pageNumber>',
+          `${currentPage - 1}`
+        );
+        url = baseUrl + searchUrl;
+      }
 
       const response = await fetch(url);
 
@@ -58,7 +83,7 @@ const SearchBooksPage: React.FC = () => {
     });
 
     window.scrollTo(0, 0);
-  }, [currentPage]);
+  }, [currentPage, searchUrl]);
 
   if (loading) {
     return <Spinner />;
@@ -71,6 +96,38 @@ const SearchBooksPage: React.FC = () => {
       </div>
     );
   }
+
+  const searchHandleChange = () => {
+    console.log('gang');
+
+    setCurrentPage(1);
+    if (search === '') {
+      setSearchUrl('');
+    } else {
+      setSearchUrl(
+        `/search/findByTitleContaining?title=${search}&page=<pageNumber>&size=${booksPerPage}`
+      );
+    }
+    setCategorySelection('Book category');
+  };
+
+  const categoryField = (category: ICategory) => {
+    setCurrentPage(1);
+    if (
+      category.abbreviation.toLowerCase() === 'fe' ||
+      category.abbreviation.toLowerCase() === 'be' ||
+      category.abbreviation.toLowerCase() === 'data' ||
+      category.abbreviation.toLowerCase() === 'devops'
+    ) {
+      setCategorySelection(category.name);
+      setSearchUrl(
+        `/search/findByCategory?category=${category.abbreviation}&page=<pageNumber>&size=${booksPerPage}`
+      );
+    } else {
+      setCategorySelection('All');
+      setSearchUrl(`?page=<pageNumber>&size=${booksPerPage}`);
+    }
+  };
 
   const indexOfLastBook: number = currentPage * booksPerPage;
   const indexOfFirstBook: number = indexOfLastBook - booksPerPage;
@@ -93,8 +150,14 @@ const SearchBooksPage: React.FC = () => {
                   type='search'
                   placeholder='Search'
                   aria-labelledby='Search'
+                  onChange={(e) => setSearch(e.target.value)}
                 />
-                <button className='btn btn-dark btn-outline'>Search</button>
+                <button
+                  className='btn btn-dark btn-outline'
+                  onClick={() => searchHandleChange()}
+                >
+                  Search
+                </button>
               </div>
             </div>
             <div className='col-4'>
@@ -106,50 +169,52 @@ const SearchBooksPage: React.FC = () => {
                   data-bs-toggle='dropdown'
                   aria-expanded='false'
                 >
-                  Category
+                  {categorySelection}
                 </button>
                 <ul
                   className='dropdown-menu'
                   aria-labelledby='dropdownMenuButton1'
                 >
-                  <li>
-                    <a className='dropdown-item' href='#'>
-                      All
-                    </a>
-                  </li>
-                  <li>
-                    <a className='dropdown-item' href='#'>
-                      Front End
-                    </a>
-                  </li>
-                  <li>
-                    <a className='dropdown-item' href='#'>
-                      Back End
-                    </a>
-                  </li>
-                  <li>
-                    <a className='dropdown-item' href='#'>
-                      Data
-                    </a>
-                  </li>
-                  <li>
-                    <a className='dropdown-item' href='#'>
-                      DevOps
-                    </a>
-                  </li>
+                  {categories.map((category) => (
+                    <li
+                      onClick={() => categoryField(category)}
+                      key={category.name}
+                    >
+                      <a className='dropdown-item' href='#'>
+                        {category.name}
+                      </a>
+                    </li>
+                  ))}
                 </ul>
               </div>
             </div>
           </div>
-          <div className='mt-3'>
-            <h5>Number of results: ({totalAmountOfBooks})</h5>
-          </div>
-          <p>
-            {indexOfFirstBook + 1} to {lastItem} of {totalAmountOfBooks} items:
-          </p>
-          {books.map((book) => (
-            <SearchBook book={book} key={book.id} />
-          ))}
+          {totalAmountOfBooks > 0 ? (
+            <>
+              <div className='mt-3'>
+                <h5>Number of results: ({totalAmountOfBooks})</h5>
+              </div>
+              <p>
+                {indexOfFirstBook + 1} to {lastItem} of {totalAmountOfBooks}{' '}
+                items:
+              </p>
+              {books.map((book) => (
+                <SearchBook book={book} key={book.id} />
+              ))}
+            </>
+          ) : (
+            <div className='m-5'>
+              <h3>Can't find what your looking for?</h3>
+              <a
+                href='#'
+                type='button'
+                className='btn btn-dark btn-md px-4 me-md-2 fw-bold text-white'
+              >
+                Contact library services
+              </a>
+            </div>
+          )}
+
           {totalPages > 1 && (
             <Pagination
               currentPage={currentPage}

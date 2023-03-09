@@ -3,6 +3,7 @@ import BookImg from '../../../Images/BooksImages/book-bookhive-1000.png';
 import BookComponent from './BookComponent';
 import BookModel from '../../../models/BookModel';
 import Spinner from '../../Utils/Spinner';
+import { Link } from 'react-router-dom';
 
 const Carousel: React.FC = () => {
   const [books, setBooks] = useState<BookModel[]>([]);
@@ -129,9 +130,9 @@ const Carousel: React.FC = () => {
         </div>
       </div>
       <div className='homepage-carousel-title mt-3'>
-        <a className='btn btn-outline-dark' href='#'>
+        <Link to='/search' className='btn btn-outline-dark'>
           View More
-        </a>
+        </Link>
       </div>
     </div>
   );

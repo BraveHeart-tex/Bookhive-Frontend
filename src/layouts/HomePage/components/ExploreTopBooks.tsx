@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const ExploreTopBooks: React.FC = () => {
   return (
@@ -14,13 +15,12 @@ const ExploreTopBooks: React.FC = () => {
           <p className='col-md-8 fs-4' style={{ color: '#ced4da' }}>
             ✨ Where would you like to go next? ✨
           </p>
-          <a
+          <Link
             className='btn main-color main-color-btn btn-lg text-white'
-            type='button'
-            href='#'
+            to='/search'
           >
             Explore top books
-          </a>
+          </Link>
         </div>
       </div>
     </div>
