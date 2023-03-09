@@ -1,6 +1,7 @@
 import React from 'react';
 import BookModel from '../../../models/BookModel';
 import BookImg from '../../../Images/BooksImages/book-bookhive-1000.png';
+import { Link } from 'react-router-dom';
 
 const SearchBook: React.FC<{ book: BookModel }> = ({ book }) => {
   return (
@@ -33,9 +34,12 @@ const SearchBook: React.FC<{ book: BookModel }> = ({ book }) => {
           </div>
         </div>
         <div className='col-md-4 d-flex justify-content-center align-items-center'>
-          <a className='btn btn-md main-color text-white' href='#'>
+          <Link
+            to={`/checkout/${book.id}`}
+            className='btn btn-md main-color text-white'
+          >
             View Details
-          </a>
+          </Link>
         </div>
       </div>
     </div>
