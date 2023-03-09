@@ -7,7 +7,7 @@ import CheckoutAndReviewBox from './CheckoutAndReviewBox';
 
 const BookCheckoutPage = () => {
   const [book, setBook] = useState<BookModel>();
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [httpError, setHttpError] = useState(null);
 
   const bookId = window.location.pathname.split('/')[2];
