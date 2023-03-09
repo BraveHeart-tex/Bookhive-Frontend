@@ -4,13 +4,14 @@ import Spinner from '../Utils/Spinner';
 import BookImg from '../../Images/BooksImages/book-bookhive-1000.png';
 import StarsReview from '../Utils/StarsReview';
 import CheckoutAndReviewBox from './CheckoutAndReviewBox';
+import LatestReviews from './LatestReviews';
 
 const BookCheckoutPage = () => {
   const [book, setBook] = useState<BookModel>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [httpError, setHttpError] = useState(null);
 
-  const [review, setReview] = useState<ReviewModel[]>([]);
+  const [reviews, setReviews] = useState<ReviewModel[]>([]);
   const [totalStars, setTotalStars] = useState<number>(0);
   const [isLoadingReview, setIsLoadingReview] = useState<boolean>(true);
 
@@ -86,7 +87,7 @@ const BookCheckoutPage = () => {
         setTotalStars(Number(round));
       }
 
-      setReview(loadedReviews);
+      setReviews(loadedReviews);
       setIsLoadingReview(false);
     };
 
@@ -124,12 +125,13 @@ const BookCheckoutPage = () => {
               <h2>{book?.title}</h2>
               <h5 className='text-primary'>{book?.author}</h5>
               <p className='lead'>{book?.description}</p>
-              <StarsReview rating={5} size={32} />
+              <StarsReview rating={totalStars} size={32} />
             </div>
           </div>
           <CheckoutAndReviewBox book={book} mobile={false} />
         </div>
         <hr />
+        <LatestReviews reviews={reviews} bookId={book?.id} mobile={false} />
       </div>
       <div className='container d-lg-none mt-5'>
         <div className='d-flex justify-content-center align-items-center'>
@@ -144,11 +146,12 @@ const BookCheckoutPage = () => {
             <h2>{book?.title}</h2>
             <h5 className='text-primary'>{book?.author}</h5>
             <p className='lead'>{book?.description}</p>
-            <StarsReview rating={4.5} size={32} />
+            <StarsReview rating={totalStars} size={32} />
           </div>
         </div>
         <CheckoutAndReviewBox book={book} mobile={true} />
         <hr />
+        <LatestReviews reviews={reviews} bookId={book?.id} mobile={true} />
       </div>
     </div>
   );
