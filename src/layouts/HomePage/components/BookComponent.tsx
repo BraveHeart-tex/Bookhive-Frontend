@@ -1,6 +1,7 @@
 import React from 'react';
 import BookImg from '../../../Images/BooksImages/book-bookhive-1000.png';
 import BookModel from '../../../models/BookModel';
+import { Link } from 'react-router-dom';
 
 const BookComponent: React.FC<{ book: BookModel }> = ({ book }) => {
   return (
@@ -27,9 +28,12 @@ const BookComponent: React.FC<{ book: BookModel }> = ({ book }) => {
         )}
         <h6 className='mt-2'>{book.title}</h6>
         <p>{book.author}</p>
-        <a href='#' className='btn main-color main-color-btn'>
+        <Link
+          to={`checkout/${book.id}`}
+          className='btn main-color main-color-btn'
+        >
           Reserve
-        </a>
+        </Link>
       </div>
     </div>
   );
