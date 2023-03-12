@@ -36,7 +36,7 @@ const SearchBook: React.FC<{ book: BookModel }> = ({ book }) => {
         <div className='col-md-4 d-flex justify-content-center align-items-center'>
           <Link
             to={`/checkout/${book.id}`}
-            className='btn btn-md main-color text-white'
+            className='btn btn-dark btn-md main-color text-white'
           >
             View Details
           </Link>
