@@ -23,6 +23,10 @@ const BookCheckoutPage = () => {
   const [isLoadingCurrentLoansCount, setIsLoadingCurrentLoansCount] =
     useState<boolean>(true);
 
+  const [isCheckedOut, setIsCheckedOut] = useState<boolean>(false);
+  const [isLoadingBookCheckedOut, setIsLoadingBookCheckedOut] =
+    useState<boolean>(true);
+
   const bookId = window.location.pathname.split('/')[2];
 
   useEffect(() => {
@@ -128,6 +132,15 @@ const BookCheckoutPage = () => {
 
     fetchUserCurrentLoansCount().catch((error: any) => {
       setIsLoadingCurrentLoansCount(false);
+      setHttpError(error.message);
+    });
+  }, [authState]);
+
+  useEffect(() => {
+    const fetchUserCheckedOutBook = async () => {};
+
+    fetchUserCheckedOutBook().catch((error: any) => {
+      setIsLoadingBookCheckedOut(false);
       setHttpError(error.message);
     });
   }, [authState]);
