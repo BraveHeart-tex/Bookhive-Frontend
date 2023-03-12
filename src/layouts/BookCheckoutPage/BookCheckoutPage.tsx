@@ -5,8 +5,12 @@ import BookImg from '../../Images/BooksImages/book-bookhive-1000.png';
 import StarsReview from '../Utils/StarsReview';
 import CheckoutAndReviewBox from './CheckoutAndReviewBox';
 import LatestReviews from './LatestReviews';
+import { useOktaAuth } from '@okta/okta-react';
 
 const BookCheckoutPage = () => {
+  const { authState } = useOktaAuth();
+  console.log(authState);
+
   const [book, setBook] = useState<BookModel>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [httpError, setHttpError] = useState(null);
@@ -14,6 +18,10 @@ const BookCheckoutPage = () => {
   const [reviews, setReviews] = useState<ReviewModel[]>([]);
   const [totalStars, setTotalStars] = useState<number>(0);
   const [isLoadingReview, setIsLoadingReview] = useState<boolean>(true);
+
+  const [currentLoansCount, setCurrentLoansCount] = useState<number>(0);
+  const [isLoadingCurrentLoansCount, setIsLoadingCurrentLoansCount] =
+    useState<boolean>(true);
 
   const bookId = window.location.pathname.split('/')[2];
 
@@ -97,14 +105,42 @@ const BookCheckoutPage = () => {
     });
   }, []);
 
-  if (isLoading || isLoadingReview) {
+  useEffect(() => {
+    const fetchUserCurrentLoansCount = async () => {
+      if (authState && authState.isAuthenticated) {
+        const url = `http://localhost:8080/api/books/secure/currentloans/count`;
+        const requestOptions = {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${authState.accessToken?.accessToken}`,
+            'Content-Type': 'application/json',
+          },
+        };
+        const currentLoansCountResponse = await fetch(url, requestOptions);
+        if (!currentLoansCountResponse.ok) {
+          throw new Error('Something went wrong.');
+        }
+        const currentLoansResponseJson = await currentLoansCountResponse.json();
+        setCurrentLoansCount(currentLoansResponseJson);
+      }
+      setIsLoadingCurrentLoansCount(false);
+    };
+
+    fetchUserCurrentLoansCount().catch((error: any) => {
+      setIsLoadingCurrentLoansCount(false);
+      setHttpError(error.message);
+    });
+  }, [authState]);
+
+  if (isLoading || isLoadingReview || isLoadingCurrentLoansCount) {
     return <Spinner />;
   }
 
   if (httpError) {
     return (
-      <div className='container m-5'>
-        <p>{httpError}</p>
+      <div className='container m-5 text-center'>
+        <h1 className='text-danger'>Sorry, there was an error :(</h1>
+        <p className='text-danger'>{httpError}</p>
       </div>
     );
   }
@@ -128,7 +164,11 @@ const BookCheckoutPage = () => {
               <StarsReview rating={totalStars} size={32} />
             </div>
           </div>
-          <CheckoutAndReviewBox book={book} mobile={false} />
+          <CheckoutAndReviewBox
+            book={book}
+            mobile={false}
+            currentLoansCount={currentLoansCount}
+          />
         </div>
         <hr />
         <LatestReviews reviews={reviews} bookId={book?.id} mobile={false} />
@@ -149,7 +189,11 @@ const BookCheckoutPage = () => {
             <StarsReview rating={totalStars} size={32} />
           </div>
         </div>
-        <CheckoutAndReviewBox book={book} mobile={true} />
+        <CheckoutAndReviewBox
+          book={book}
+          mobile={true}
+          currentLoansCount={currentLoansCount}
+        />
         <hr />
         <LatestReviews reviews={reviews} bookId={book?.id} mobile={true} />
       </div>
