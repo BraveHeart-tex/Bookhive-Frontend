@@ -98,8 +98,6 @@ const SearchBooksPage: React.FC = () => {
   }
 
   const searchHandleChange = () => {
-    console.log('gang');
-
     setCurrentPage(1);
     if (search === '') {
       setSearchUrl('');

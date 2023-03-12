@@ -9,7 +9,6 @@ import { useOktaAuth } from '@okta/okta-react';
 
 const BookCheckoutPage = () => {
   const { authState } = useOktaAuth();
-  console.log(authState);
 
   const [book, setBook] = useState<BookModel>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -207,6 +206,8 @@ const BookCheckoutPage = () => {
             book={book}
             mobile={false}
             currentLoansCount={currentLoansCount}
+            isAuthenticated={authState?.isAuthenticated}
+            isCheckedOut={isCheckedOut}
           />
         </div>
         <hr />
@@ -232,6 +233,8 @@ const BookCheckoutPage = () => {
           book={book}
           mobile={true}
           currentLoansCount={currentLoansCount}
+          isAuthenticated={authState?.isAuthenticated}
+          isCheckedOut={isCheckedOut}
         />
         <hr />
         <LatestReviews reviews={reviews} bookId={book?.id} mobile={true} />
