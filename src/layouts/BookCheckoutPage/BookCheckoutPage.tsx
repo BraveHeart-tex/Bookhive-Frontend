@@ -183,7 +183,7 @@ const BookCheckoutPage = () => {
     );
   }
 
-  async function checkoutBook() {
+  async function checkOutBook() {
     const url = `http://localhost:8080/api/books/secure/checkout/?bookId=${book?.id}`;
     const requestOptions = {
       method: 'PUT',
@@ -225,6 +225,7 @@ const BookCheckoutPage = () => {
             currentLoansCount={currentLoansCount}
             isAuthenticated={authState?.isAuthenticated}
             isCheckedOut={isCheckedOut}
+            checkOutBook={checkOutBook}
           />
         </div>
         <hr />
@@ -252,6 +253,7 @@ const BookCheckoutPage = () => {
           currentLoansCount={currentLoansCount}
           isAuthenticated={authState?.isAuthenticated}
           isCheckedOut={isCheckedOut}
+          checkOutBook={checkOutBook}
         />
         <hr />
         <LatestReviews reviews={reviews} bookId={book?.id} mobile={true} />

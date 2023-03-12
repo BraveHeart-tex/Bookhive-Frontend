@@ -22,7 +22,7 @@ const LatestReviews: React.FC<{
             <div className='m-3'>
               <Link
                 type='button'
-                className='btn main-color btn-md text-white'
+                className='btn btn-dark main-color btn-md text-white'
                 to='#'
               >
                 Reach all reviews.
