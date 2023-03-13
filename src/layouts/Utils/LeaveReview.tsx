@@ -3,9 +3,12 @@ import StarsReview from './StarsReview';
 
 const LeaveReview: React.FC<{}> = () => {
   const [starInput, setStarInput] = useState<number>(0);
+  const [displayInput, setDisplayInput] = useState<boolean>(false);
+  const [reviewDescription, setReviewDescription] = useState<string>('');
 
   function starValue(value: number) {
     setStarInput(value);
+    setDisplayInput(true);
   }
   return (
     <div className='dropdown' style={{ cursor: 'pointer' }}>
@@ -78,6 +81,31 @@ const LeaveReview: React.FC<{}> = () => {
         </li>
       </ul>
       <StarsReview rating={starInput} size={32} />
+      {displayInput && (
+        <form method='POST' action='#'>
+          <hr />
+
+          <div className='mb-3'>
+            <label className='form-label'>Description</label>
+            <textarea
+              className='form-control'
+              id='submitReviewDescription'
+              rows={3}
+              placeholder='(Optional)'
+              onChange={(e) => setReviewDescription(e.target.value)}
+            ></textarea>
+          </div>
+
+          <div>
+            <button
+              type='button'
+              className='btn btn-dark main-color btn-primary mt-3'
+            >
+              Submit Review
+            </button>
+          </div>
+        </form>
+      )}
     </div>
   );
 };
