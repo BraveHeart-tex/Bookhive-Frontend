@@ -9,6 +9,7 @@ const CheckoutAndReviewBox: React.FC<{
   isAuthenticated: any;
   isCheckedOut: boolean;
   checkOutBook: any;
+  isReviewLeft: boolean;
 }> = ({
   book,
   mobile,
@@ -16,6 +17,7 @@ const CheckoutAndReviewBox: React.FC<{
   isAuthenticated,
   isCheckedOut,
   checkOutBook,
+  isReviewLeft,
 }) => {
   function renderButton() {
     if (isAuthenticated) {
@@ -29,9 +31,9 @@ const CheckoutAndReviewBox: React.FC<{
           </button>
         );
       } else if (isCheckedOut) {
-        return <p>Book checked out. Enjoy!</p>;
+        return <p>Book checked out ✨. Enjoy!</p>;
       } else if (!isCheckedOut) {
-        return <p className='text-danger'>Too many books checked out.</p>;
+        return <p className='text-danger'>Too many books checked out 📚.</p>;
       }
     }
 
@@ -39,6 +41,23 @@ const CheckoutAndReviewBox: React.FC<{
       <Link to='/login' className='btn btn-success btn-lg'>
         Sign in
       </Link>
+    );
+  }
+  function renderReview() {
+    if (isAuthenticated && !isReviewLeft) {
+      return <p>Leave a review</p>;
+    } else if (isAuthenticated && isReviewLeft) {
+      return (
+        <p>
+          <b>Thank you for your review 🌹!</b>
+        </p>
+      );
+    }
+    return (
+      <div>
+        <hr />
+        <p>Sign in to leave a review.</p>
+      </div>
     );
   }
   return (
@@ -75,7 +94,7 @@ const CheckoutAndReviewBox: React.FC<{
         <p className='mt-3'>
           This number can change until the order is completed.
         </p>
-        <p>Sign in to leave a review.</p>
+        {renderReview()}
       </div>
     </div>
   );

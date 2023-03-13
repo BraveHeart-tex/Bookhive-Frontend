@@ -109,13 +109,34 @@ const BookCheckoutPage = () => {
       setIsLoadingReview(false);
       setHttpError(error.message);
     });
-  }, []);
+  }, [isReviewLeft]);
 
   useEffect(() => {
-    const fetchUserReviewBook = async () => {};
+    const fetchUserReviewBook = async () => {
+      if (authState && authState.isAuthenticated) {
+        const url = `http://localhost:8080/api/reviews/secure/user/book/?bookId=${bookId}`;
+        const requestOptions = {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${authState.accessToken?.accessToken}`,
+            'Content-Type': 'application/json',
+          },
+        };
+
+        const userReview = await fetch(url, requestOptions);
+
+        if (!userReview.ok) {
+          throw new Error('Something went wrong...');
+        }
+        const userReviewResponseJSON = await userReview.json();
+        setIsReviewLeft(userReviewResponseJSON);
+        setIsLoadingUserReview(false);
+      }
+    };
 
     fetchUserReviewBook().catch((error: any) => {
       setIsLoadingUserReview(false);
+      console.error(error.message);
       setHttpError(error.message);
     });
   }, [authState]);
@@ -181,7 +202,8 @@ const BookCheckoutPage = () => {
     isLoading ||
     isLoadingReview ||
     isLoadingCurrentLoansCount ||
-    isLoadingBookCheckedOut
+    isLoadingBookCheckedOut ||
+    isLoadingUserReview
   ) {
     return <Spinner />;
   }
@@ -238,6 +260,7 @@ const BookCheckoutPage = () => {
             isAuthenticated={authState?.isAuthenticated}
             isCheckedOut={isCheckedOut}
             checkOutBook={checkOutBook}
+            isReviewLeft={isReviewLeft}
           />
         </div>
         <hr />
@@ -266,6 +289,7 @@ const BookCheckoutPage = () => {
           isAuthenticated={authState?.isAuthenticated}
           isCheckedOut={isCheckedOut}
           checkOutBook={checkOutBook}
+          isReviewLeft={isReviewLeft}
         />
         <hr />
         <LatestReviews reviews={reviews} bookId={book?.id} mobile={true} />
