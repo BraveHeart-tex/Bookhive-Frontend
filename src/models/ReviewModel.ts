@@ -1,4 +1,4 @@
-class ReviewModel {
+export default class ReviewModel {
   id: number;
   userEmail: string;
   date: string;
