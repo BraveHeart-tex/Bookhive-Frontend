@@ -5,7 +5,8 @@ const LoansModal: React.FC<{
   shelfCurrentLoan: ShelfCurrentLoans;
   mobile: boolean;
   returnBook: (bookId: number) => Promise<void>;
-}> = ({ shelfCurrentLoan, mobile, returnBook }) => {
+  renewLoan: (bookId: number) => Promise<void>;
+}> = ({ shelfCurrentLoan, mobile, returnBook, renewLoan }) => {
   return (
     <div
       className='modal fade'
@@ -78,6 +79,11 @@ const LoansModal: React.FC<{
                     Return Book
                   </button>
                   <button
+                    onClick={
+                      shelfCurrentLoan.daysLeft < 0
+                        ? (event) => event.preventDefault()
+                        : () => renewLoan(shelfCurrentLoan.book.id)
+                    }
                     data-bs-dismiss='modal'
                     className={
                       shelfCurrentLoan.daysLeft < 0
