@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import ReviewModel from '../../../models/ReviewModel';
+import Spinner from '../../Utils/Spinner';
 
 const ReviewListPage: React.FC = () => {
   const [reviews, setReviews] = useState<ReviewModel[]>([]);
@@ -54,6 +55,27 @@ const ReviewListPage: React.FC = () => {
       setHttpError(error.message);
     });
   }, [currentPage]);
+
+  if (isLoading) {
+    return <Spinner />;
+  }
+
+  if (httpError) {
+    <div className='container m-5'>
+      <h1>An error has occurred 🙁</h1>
+      <p className='text-danger'>{httpError}</p>
+    </div>;
+  }
+
+  const indexOfLastReview: number = currentPage * reviewsPerPage;
+  const indexOfFirstReview: number = indexOfLastReview - reviewsPerPage;
+
+  let lastItem =
+    reviewsPerPage * currentPage <= totalAmountOfReviews
+      ? reviewsPerPage * currentPage
+      : totalAmountOfReviews;
+
+  const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
   return <div>ReviewListPage</div>;
 };
