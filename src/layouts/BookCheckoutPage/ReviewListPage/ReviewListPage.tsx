@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import ReviewModel from '../../../models/ReviewModel';
 import Spinner from '../../Utils/Spinner';
+import Review from '../../Utils/Review';
+import Pagination from '../../Utils/Pagination';
 
 const ReviewListPage: React.FC = () => {
   const [reviews, setReviews] = useState<ReviewModel[]>([]);
@@ -77,6 +79,28 @@ const ReviewListPage: React.FC = () => {
 
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
-  return <div>ReviewListPage</div>;
+  return (
+    <div className='cotaniner m-5'>
+      <div>
+        <h3>Comments: ({reviews.length})</h3>
+      </div>
+      <p>
+        {indexOfFirstReview + 1} to {lastItem} of {totalAmountOfReviews} items
+      </p>
+      <div className='row'>
+        {reviews.map((review) => (
+          <Review review={review} key={review.id} />
+        ))}
+      </div>
+
+      {totalPages > 1 && (
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          paginate={paginate}
+        />
+      )}
+    </div>
+  );
 };
 export default ReviewListPage;
