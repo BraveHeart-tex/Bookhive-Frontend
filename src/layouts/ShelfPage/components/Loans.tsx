@@ -1,9 +1,10 @@
 import { useOktaAuth } from '@okta/okta-react';
 import { useEffect, useState } from 'react';
-import ShelfCurrentLoans from '../../models/ShelfCurrentLoans';
-import Spinner from '../Utils/Spinner';
-import BookImg from '../../Images/BooksImages/book-bookhive-1000.png';
+import ShelfCurrentLoans from '../../../models/ShelfCurrentLoans';
+import Spinner from '../../Utils/Spinner';
+import BookImg from '../../../Images/BooksImages/book-bookhive-1000.png';
 import { Link } from 'react-router-dom';
+import LoansModal from './LoansModal';
 
 const Loans = () => {
   const { authState } = useOktaAuth();
@@ -12,6 +13,7 @@ const Loans = () => {
     ShelfCurrentLoans[]
   >([]);
   const [isLoadingUserLoans, setIsLoadingUserLoans] = useState<boolean>(true);
+  const [checkout, setCheckout] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchUserCurrentLoans = async () => {
@@ -39,7 +41,7 @@ const Loans = () => {
       setHttpError(error.message);
     });
     window.scrollTo(0, 0);
-  }, [authState]);
+  }, [authState, checkout]);
 
   if (isLoadingUserLoans) {
     return <Spinner />;
@@ -52,6 +54,22 @@ const Loans = () => {
         <p>{httpError}</p>
       </div>
     );
+  }
+
+  async function returnBook(bookId: number) {
+    const url = `http://localhost:8080/api/books/secure/return/?bookId=${bookId}`;
+    const requestOptions = {
+      method: 'PUT',
+      headers: {
+        Authorization: `Bearer ${authState?.accessToken?.accessToken}`,
+        'Content-Type': 'application/json',
+      },
+    };
+    const returnResponse = await fetch(url, requestOptions);
+    if (!returnResponse.ok) {
+      throw new Error('Something went wrong...');
+    }
+    setCheckout(!checkout);
   }
 
   return (
@@ -127,12 +145,17 @@ const Loans = () => {
                   </div>
                 </div>
                 <hr />
+                <LoansModal
+                  shelfCurrentLoan={shelfCurrentLoan}
+                  mobile={false}
+                  returnBook={returnBook}
+                />
               </div>
             ))}
           </>
         ) : (
           <>
-            <h3 className='mt-3'>Currently no loans</h3>
+            <h3 className='mt-3'>You currently have no loans...</h3>
             <Link className='btn btn-dark main-color' to={`search`}>
               Search for a new book
             </Link>
@@ -196,7 +219,8 @@ const Loans = () => {
                     </div>
                     <hr />
                     <p className='mt-3'>
-                      Help other find their adventure by reviewing your loan.
+                      Leave a review and help others in search of their dream
+                      book 😇
                     </p>
                     <Link
                       className='btn btn-dark main-color'
@@ -208,12 +232,17 @@ const Loans = () => {
                 </div>
 
                 <hr />
+                <LoansModal
+                  shelfCurrentLoan={shelfCurrentLoan}
+                  mobile={true}
+                  returnBook={returnBook}
+                />
               </div>
             ))}
           </>
         ) : (
           <>
-            <h3 className='mt-3'>Currently no loans</h3>
+            <h3 className='mt-3'>You currently have no loans...</h3>
             <Link className='btn btn-dark main-color' to={`search`}>
               Search for a new book
             </Link>

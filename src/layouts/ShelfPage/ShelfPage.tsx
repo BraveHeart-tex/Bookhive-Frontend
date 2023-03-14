@@ -1,4 +1,4 @@
-import Loans from './Loans';
+import Loans from './components/Loans';
 
 const ShelfPage = () => {
   return (
