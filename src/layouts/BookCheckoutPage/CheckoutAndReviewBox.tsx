@@ -11,6 +11,7 @@ const CheckoutAndReviewBox: React.FC<{
   isCheckedOut: boolean;
   checkOutBook: any;
   isReviewLeft: boolean;
+  submitReview: any;
 }> = ({
   book,
   mobile,
@@ -19,6 +20,7 @@ const CheckoutAndReviewBox: React.FC<{
   isCheckedOut,
   checkOutBook,
   isReviewLeft,
+  submitReview,
 }) => {
   function renderButton() {
     if (isAuthenticated) {
@@ -46,11 +48,7 @@ const CheckoutAndReviewBox: React.FC<{
   }
   function renderReview() {
     if (isAuthenticated && !isReviewLeft) {
-      return (
-        <p>
-          <LeaveReview />
-        </p>
-      );
+      return <LeaveReview submitReview={submitReview} />;
     } else if (isAuthenticated && isReviewLeft) {
       return (
         <p>
