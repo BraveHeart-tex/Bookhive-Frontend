@@ -24,9 +24,9 @@ const LatestReviews: React.FC<{
               <Link
                 type='button'
                 className='btn btn-dark main-color btn-md text-white'
-                to='#'
+                to={`/reviewlist/${bookId}`}
               >
-                Reach all reviews.
+                Read all reviews.
               </Link>
             </div>
           </>
