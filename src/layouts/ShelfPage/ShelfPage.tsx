@@ -1,13 +1,17 @@
+import { useState } from 'react';
 import { HistoryPage } from './components/HistoryPage';
 import Loans from './components/Loans';
 
 const ShelfPage = () => {
+  const [historyClicked, setHistoryClicked] = useState<boolean>(false);
+
   return (
     <div className='container'>
       <div className='mt-3'>
         <nav>
           <div className='nav nav-tabs' id='nav-tab' role='tablist'>
             <button
+              onClick={() => setHistoryClicked(false)}
               className='nav-link active'
               id='nav-loans-tab'
               data-bs-toggle='tab'
@@ -20,6 +24,7 @@ const ShelfPage = () => {
               Loans
             </button>
             <button
+              onClick={() => setHistoryClicked(true)}
               className='nav-link'
               id='nav-history-tab'
               data-bs-toggle='tab'
@@ -48,7 +53,7 @@ const ShelfPage = () => {
             role='tabpanel'
             aria-labelledby='nav-history-tab'
           >
-            <HistoryPage />
+            {historyClicked ? <HistoryPage /> : <></>}
           </div>
         </div>
       </div>
