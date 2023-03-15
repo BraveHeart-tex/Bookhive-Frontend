@@ -3,6 +3,7 @@ import BookModel from '../../models/BookModel';
 import Spinner from '../Utils/Spinner';
 import SearchBook from './components/SearchBook';
 import Pagination from '../Utils/Pagination';
+import { Link } from 'react-router-dom';
 
 interface ICategory {
   name: string;
@@ -203,13 +204,13 @@ const SearchBooksPage: React.FC = () => {
           ) : (
             <div className='m-5'>
               <h3>Can't find what your looking for?</h3>
-              <a
-                href='#'
+              <Link
+                to='/messages'
                 type='button'
                 className='btn btn-dark btn-md px-4 me-md-2 fw-bold text-white'
               >
                 Contact library services
-              </a>
+              </Link>
             </div>
           )}
 
