@@ -2,11 +2,13 @@ import { useOktaAuth } from '@okta/okta-react';
 import { useEffect, useState } from 'react';
 import Spinner from '../../Utils/Spinner';
 import MessageModel from '../../../models/MessageModel';
+import Pagination from '../../Utils/Pagination';
+import AdminMessage from './AdminMessage';
 
 const AdminMessages = () => {
   const { authState } = useOktaAuth();
 
-  const [isLoadingMessage, setIsLoadingMessages] = useState<boolean>(true);
+  const [isLoadingMessages, setIsLoadingMessages] = useState<boolean>(true);
   const [httpError, setHttpError] = useState(null);
 
   const [messages, setMessages] = useState<MessageModel[]>([]);
@@ -34,6 +36,8 @@ const AdminMessages = () => {
         }
 
         const messagesResponseJSON = await messagesResponse.json();
+        console.log(messagesResponseJSON);
+
         setMessages(messagesResponseJSON._embedded.messages);
         setTotalPages(messagesResponseJSON.page.totalPages);
       }
@@ -47,7 +51,7 @@ const AdminMessages = () => {
     window.scrollTo(0, 0);
   }, [authState, currentPage]);
 
-  if (isLoadingMessage) {
+  if (isLoadingMessages) {
     return <Spinner />;
   }
 
@@ -62,6 +66,26 @@ const AdminMessages = () => {
 
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
-  return <div>AdminMessages</div>;
+  return (
+    <div className='mt-3'>
+      {messages.length > 0 ? (
+        <>
+          <h5>Pending Q/A 🕖</h5>
+          {messages.map((message) => (
+            <AdminMessage message={message} key={message.id} />
+          ))}
+        </>
+      ) : (
+        <h5>No pending Q/A</h5>
+      )}
+      {totalPages > 1 && (
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          paginate={paginate}
+        />
+      )}
+    </div>
+  );
 };
 export default AdminMessages;

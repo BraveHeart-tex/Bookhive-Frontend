@@ -1,6 +1,7 @@
 import { useOktaAuth } from '@okta/okta-react';
 import { useState } from 'react';
 import { Redirect } from 'react-router-dom';
+import AdminMessages from './components/AdminMessages';
 
 const ManageLibraryPage = () => {
   const { authState } = useOktaAuth();
@@ -35,6 +36,7 @@ const ManageLibraryPage = () => {
         <nav>
           <div className='nav nav-tabs' id='nav-tab' role='tablist'>
             <button
+              onClick={addBookClickedFunction}
               className='nav-link active'
               id='nav-add-book-tab'
               data-bs-toggle='tab'
@@ -47,6 +49,7 @@ const ManageLibraryPage = () => {
               Add new book
             </button>
             <button
+              onClick={changeQuantityOfBooksClickedFunction}
               className='nav-link'
               id='nav-quantity-tab'
               data-bs-toggle='tab'
@@ -59,6 +62,7 @@ const ManageLibraryPage = () => {
               Change quantity
             </button>
             <button
+              onClick={messagesClickedFunction}
               className='nav-link'
               id='nav-messages-tab'
               data-bs-toggle='tab'
@@ -87,15 +91,16 @@ const ManageLibraryPage = () => {
             role='tabpanel'
             aria-labelledby='nav-quantity-tab'
           >
-            Change Quantity
+            {changeQuantityOfBooksClicked ? <>Change Quantity</> : <></>}
           </div>
           <div
+            onClick={() => messagesClickedFunction()}
             className='tab-pane fade'
             id='nav-messages'
             role='tabpanel'
             aria-labelledby='nav-messages-tab'
           >
-            Admin Messages
+            {messagesClicked ? <AdminMessages /> : <></>}
           </div>
         </div>
       </div>
