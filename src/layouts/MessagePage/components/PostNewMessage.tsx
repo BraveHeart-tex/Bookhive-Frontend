@@ -1,5 +1,6 @@
 import { useOktaAuth } from '@okta/okta-react';
 import { useState } from 'react';
+import MessageModel from '../../../models/MessageModel';
 
 const PostNewMessage = () => {
   const { authState } = useOktaAuth();
@@ -8,13 +9,44 @@ const PostNewMessage = () => {
   const [displayWarning, setDisplayWarning] = useState<boolean>(false);
   const [displaySuccess, setDisplaySuccess] = useState<boolean>(false);
 
+  async function submitNewQuestion() {
+    const url = `http://localhost:8080/api/messages/secure/add/message`;
+    if (
+      authState &&
+      authState.isAuthenticated &&
+      title !== '' &&
+      question !== ''
+    ) {
+      const messageRequestModel: MessageModel = new MessageModel(
+        title,
+        question
+      );
+      const requestOptions = {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${authState.accessToken?.accessToken}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(messageRequestModel),
+      };
+
+      const submitNewQuestionResponse = await fetch(url, requestOptions);
+      if (!submitNewQuestionResponse.ok) {
+        throw new Error('Something went wrong...');
+      }
+
+      setTitle('');
+      setQuestion('');
+      setDisplayWarning(false);
+      setDisplaySuccess(true);
+    } else {
+      setDisplayWarning(true);
+      setDisplaySuccess(false);
+    }
+  }
+
   return (
     <div className='card mt-3'>
-      {displaySuccess && (
-        <div className='alert alert-success' role='alert'>
-          Question added successfully
-        </div>
-      )}
       <div className='card-header'>
         &mdash; Feel free to ask any question to our{' '}
         <b>
@@ -26,10 +58,14 @@ const PostNewMessage = () => {
         <form method='POST'>
           {displayWarning && (
             <div className='alert alert-danger' role='alert'>
-              All fields must be filled out
+              ❌ All fields must be filled out
             </div>
           )}
-
+          {displaySuccess && (
+            <div className='alert alert-success' role='alert'>
+              ✅ Question added successfully
+            </div>
+          )}
           <div className='mb-3'>
             <label className='form-label'>Title</label>
             <input
@@ -54,6 +90,7 @@ const PostNewMessage = () => {
           </div>
           <div>
             <button
+              onClick={submitNewQuestion}
               type='button'
               className='btn btn-dark main-color btn-primary mt-3'
             >

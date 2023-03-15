@@ -10,10 +10,10 @@ class MessageModel {
   constructor(
     title: string,
     question: string,
-    userEmail: string,
-    adminEmail: string,
-    response: string,
-    closed: boolean,
+    userEmail?: string,
+    adminEmail?: string,
+    response?: string,
+    closed?: boolean,
     id?: number
   ) {
     this.title = title;
