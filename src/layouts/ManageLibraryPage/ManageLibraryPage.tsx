@@ -1,5 +1,6 @@
 import { useOktaAuth } from '@okta/okta-react';
 import { useState } from 'react';
+import { Redirect } from 'react-router-dom';
 
 const ManageLibraryPage = () => {
   const { authState } = useOktaAuth();
@@ -7,6 +8,25 @@ const ManageLibraryPage = () => {
   const [changeQuantityOfBooksClicked, setChangeQuantityOfBooksClicked] =
     useState<boolean>(false);
   const [messagesClicked, setMessagesClicked] = useState<boolean>(false);
+
+  function addBookClickedFunction() {
+    setChangeQuantityOfBooksClicked(false);
+    setMessagesClicked(false);
+  }
+
+  function changeQuantityOfBooksClickedFunction() {
+    setChangeQuantityOfBooksClicked(true);
+    setMessagesClicked(false);
+  }
+
+  function messagesClickedFunction() {
+    setChangeQuantityOfBooksClicked(false);
+    setMessagesClicked(true);
+  }
+
+  if (authState?.accessToken?.claims.userType === undefined) {
+    return <Redirect to='/home' />;
+  }
 
   return (
     <div className='container'>
