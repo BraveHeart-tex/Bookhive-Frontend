@@ -91,3 +91,11 @@ input[type='file'] {
 .custom-file-upload:hover {
   background-color: #333;
 }
+
+.w-50p {
+  width: 50%;
+}
+
+.button-container {
+  display: flex;
+}
