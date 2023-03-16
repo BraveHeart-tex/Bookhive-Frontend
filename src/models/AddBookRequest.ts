@@ -12,7 +12,7 @@ class AddBookRequest {
     description: string,
     copies: number,
     category: string,
-    img: string
+    img?: string
   ) {
     this.title = title;
     this.author = author;

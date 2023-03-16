@@ -1,5 +1,6 @@
 import { useOktaAuth } from '@okta/okta-react';
 import { useState } from 'react';
+import AddBookRequest from '../../../models/AddBookRequest';
 
 interface ICategory {
   name: string;
@@ -29,6 +30,68 @@ export const AddNewBook = () => {
     { name: 'DevOps', abbreviation: 'DevOps' },
     { name: 'Data', abbreviation: 'Data' },
   ];
+
+  async function base64ConversionForImages(e: any) {
+    if (e.target.files[0]) {
+      getBase64(e.target.files[0]);
+    }
+  }
+
+  function getBase64(file: any) {
+    let reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = function () {
+      setSelectedImage(reader.result);
+    };
+    reader.onerror = function (error) {
+      console.error('An error has occurred', error);
+    };
+  }
+
+  async function submitNewBook() {
+    const url = `http://localhost:8080/api/admin/secure/add/book`;
+    if (
+      authState?.isAuthenticated &&
+      title !== '' &&
+      author !== '' &&
+      category !== 'Category' &&
+      description !== '' &&
+      copies > 0
+    ) {
+      const book: AddBookRequest = new AddBookRequest(
+        title,
+        author,
+        description,
+        copies,
+        category
+      );
+
+      book.img = selectedImage;
+      const requestOptions = {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${authState.accessToken?.accessToken}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(book),
+      };
+
+      const submitNewBookResponse = await fetch(url, requestOptions);
+      if (!submitNewBookResponse.ok) {
+        throw new Error('Something went wrong');
+      }
+      setTitle('');
+      setAuthor('');
+      setDescription('');
+      setCopies(0);
+      setSelectedImage(null);
+      setDisplayWarning(false);
+      setDisplaySuccess(true);
+    } else {
+      setDisplayWarning(true);
+      setDisplaySuccess(false);
+    }
+  }
 
   return (
     <div className='container mt-5 mb-5'>
@@ -120,11 +183,19 @@ export const AddNewBook = () => {
               />
             </div>
             <label className='custom-file-upload'>
-              <input type='file' id='upload-image' />
+              <input
+                type='file'
+                id='upload-image'
+                onChange={(e) => base64ConversionForImages(e)}
+              />
               Choose file
             </label>
             <div>
-              <button type='button' className='btn btn-dark main-color mt-3'>
+              <button
+                type='button'
+                className='btn btn-dark main-color mt-3'
+                onClick={submitNewBook}
+              >
                 Add Book
               </button>
             </div>
