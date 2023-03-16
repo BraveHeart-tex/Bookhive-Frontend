@@ -71,3 +71,23 @@
   color: #fff;
   background: #495057;
 }
+
+input[type='file'] {
+  display: none;
+}
+
+.custom-file-upload {
+  background-color: #645d5d;
+  color: #fff;
+  cursor: pointer;
+  border-radius: 8px;
+  display: inline-block;
+  padding: 6px 12px;
+  transition: all 0.3s ease-in;
+  width: 35%;
+  text-align: center;
+}
+
+.custom-file-upload:hover {
+  background-color: #333;
+}
