@@ -1,5 +1,5 @@
 import { useOktaAuth } from '@okta/okta-react';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ShelfCurrentLoans from '../../../models/ShelfCurrentLoans';
 import Spinner from '../../Utils/Spinner';
 import BookImg from '../../../Images/BooksImages/book-bookhive-1000.png';
@@ -172,12 +172,12 @@ const Loans = () => {
             ))}
           </>
         ) : (
-          <>
-            <h3 className='mt-3'>You currently have no loans...</h3>
+          <div className='generic-center'>
+            <h3 className='mt-3 '>You currently have no loans...</h3>
             <Link className='btn btn-dark main-color' to={`search`}>
               Search for a new book
             </Link>
-          </>
+          </div>
         )}
       </div>
 

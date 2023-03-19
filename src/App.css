@@ -99,3 +99,11 @@ input[type='file'] {
 .button-container {
   display: flex;
 }
+
+.generic-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  min-height: 35rem;
+}

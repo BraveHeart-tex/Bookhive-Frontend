@@ -71,9 +71,13 @@ const PaymentPage = () => {
       )}
 
       {fees === 0 && (
-        <div className='mt-3'>
+        <div className='mt-3 generic-center'>
           <h5>You have no fees!</h5>
-          <Link type='button' className='btn main-color text-white' to='search'>
+          <Link
+            type='button'
+            className='btn btn-dark main-color text-white'
+            to='search'
+          >
             Explore our top books
           </Link>
         </div>
