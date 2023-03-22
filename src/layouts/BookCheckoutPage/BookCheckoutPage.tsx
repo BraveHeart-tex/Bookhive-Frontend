@@ -212,6 +212,18 @@ const BookCheckoutPage = () => {
     return <Spinner />;
   }
 
+  if (!authState?.isAuthenticated) {
+    return (
+      <div className='container m-5 text-center'>
+        <h1 className='text-danger'>You must be authenticated to see books.</h1>
+        <p className='alert'>
+          You can use the following account for testing:{' '}
+          <em>testuser@email.com </em> <em>password1234</em>
+        </p>
+      </div>
+    );
+  }
+
   if (httpError) {
     return (
       <div className='container m-5 text-center'>
