@@ -8,7 +8,7 @@ import BookCheckoutPage from './layouts/BookCheckoutPage/BookCheckoutPage';
 import { oktaConfig } from './lib/oktaConfig';
 import { OktaAuth, toRelativeUrl } from '@okta/okta-auth-js';
 import { LoginCallback, SecureRoute, Security } from '@okta/okta-react';
-import LoginWidget from './Auth/LoginWidget.jsx';
+import LoginWidget from './Auth/LoginWidget';
 import ReviewListPage from './layouts/BookCheckoutPage/ReviewListPage/ReviewListPage';
 import ShelfPage from './layouts/ShelfPage/ShelfPage';
 import MessagesPage from './layouts/MessagePage/MessagesPage';
