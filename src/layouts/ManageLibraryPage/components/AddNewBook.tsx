@@ -49,7 +49,7 @@ export const AddNewBook = () => {
   }
 
   async function submitNewBook() {
-    const url = `http://localhost:8080/api/admin/secure/add/book`;
+    const url = `http://bookhive-env.eba-7rvhnjpe.eu-north-1.elasticbeanstalk.com/api/admin/secure/add/book`;
     if (
       authState?.isAuthenticated &&
       title !== '' &&

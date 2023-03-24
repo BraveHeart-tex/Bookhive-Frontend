@@ -33,7 +33,7 @@ const SearchBooksPage: React.FC = () => {
 
   useEffect(() => {
     const fetchBooks = async () => {
-      const baseUrl: string = `http://localhost:8080/api/books`;
+      const baseUrl: string = `http://bookhive-env.eba-7rvhnjpe.eu-north-1.elasticbeanstalk.com/api/books`;
 
       let url: string = ``;
 

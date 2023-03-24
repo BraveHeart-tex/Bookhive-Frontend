@@ -18,7 +18,7 @@ const ReviewListPage: React.FC = () => {
 
   useEffect(() => {
     const fetchBookReviews = async () => {
-      const reviewUrl: string = `http://localhost:8080/api/reviews/search/findByBookId?bookId=${bookId}&page=${
+      const reviewUrl: string = `http://bookhive-env.eba-7rvhnjpe.eu-north-1.elasticbeanstalk.com/api/reviews/search/findByBookId?bookId=${bookId}&page=${
         currentPage - 1
       }&size=${reviewsPerPage}`;
 

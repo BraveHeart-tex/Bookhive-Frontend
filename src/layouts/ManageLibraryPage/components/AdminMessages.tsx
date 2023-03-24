@@ -23,7 +23,7 @@ const AdminMessages = () => {
   useEffect(() => {
     const fetchUserMessages = async () => {
       if (authState && authState.isAuthenticated) {
-        const url = `http://localhost:8080/api/messages/search/findByClosed/?closed=false&page=${
+        const url = `http://bookhive-env.eba-7rvhnjpe.eu-north-1.elasticbeanstalk.com/api/messages/search/findByClosed/?closed=false&page=${
           currentPage - 1
         }&size=${messagesPerPage}`;
         const requestOptions = {
@@ -68,7 +68,7 @@ const AdminMessages = () => {
   }
 
   async function submitResponseToQuestion(id: number, response: string) {
-    const url = `http://localhost:8080/api/messages/secure/admin/message`;
+    const url = `http://bookhive-env.eba-7rvhnjpe.eu-north-1.elasticbeanstalk.com/api/messages/secure/admin/message`;
     if (
       authState &&
       authState.isAuthenticated &&

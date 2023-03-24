@@ -15,7 +15,7 @@ const PaymentPage = () => {
   useEffect(() => {
     const fetchFees = async () => {
       if (authState && authState.isAuthenticated) {
-        const url = `http://localhost:8080/api/payments/search/findByUserEmail?userEmail=${authState.accessToken?.claims.sub}`;
+        const url = `http://bookhive-env.eba-7rvhnjpe.eu-north-1.elasticbeanstalk.com/api/payments/search/findByUserEmail?userEmail=${authState.accessToken?.claims.sub}`;
 
         const requestOptions = {
           method: 'GET',
@@ -54,7 +54,7 @@ const PaymentPage = () => {
       authState?.accessToken?.claims.sub
     );
 
-    const url = `https://localhost:8080/api/payment/secure/payment-intent`;
+    const url = `http://bookhive-env.eba-7rvhnjpe.eu-north-1.elasticbeanstalk.com/api/payment/secure/payment-intent`;
     const requestOptions = {
       method: 'POST',
       headers: {
@@ -89,7 +89,7 @@ const PaymentPage = () => {
           setSubmitDisabled(false);
           alert('There was an error...');
         } else {
-          const url = `https://localhost:8080/api/payment/secure/payment-complete`;
+          const url = `http://bookhive-env.eba-7rvhnjpe.eu-north-1.elasticbeanstalk.com/api/payment/secure/payment-complete`;
           const requestOptions = {
             method: 'PUT',
             headers: {

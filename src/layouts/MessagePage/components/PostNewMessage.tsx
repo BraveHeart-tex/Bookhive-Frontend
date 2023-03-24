@@ -10,7 +10,7 @@ const PostNewMessage = () => {
   const [displaySuccess, setDisplaySuccess] = useState<boolean>(false);
 
   async function submitNewQuestion() {
-    const url = `http://localhost:8080/api/messages/secure/add/message`;
+    const url = `http://bookhive-env.eba-7rvhnjpe.eu-north-1.elasticbeanstalk.com/api/messages/secure/add/message`;
     if (
       authState &&
       authState.isAuthenticated &&

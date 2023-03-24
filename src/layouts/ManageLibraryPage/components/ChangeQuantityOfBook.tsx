@@ -22,7 +22,7 @@ const ChangeQuantityOfBook: React.FC<{
   }, []);
 
   async function increaseBookQuantity() {
-    const url = `http://localhost:8080/api/admin/secure/increase/book/quantity/?bookId=${book.id}`;
+    const url = `http://bookhive-env.eba-7rvhnjpe.eu-north-1.elasticbeanstalk.com/api/admin/secure/increase/book/quantity/?bookId=${book.id}`;
     const requestOptions = {
       method: 'PUT',
       headers: {
@@ -40,7 +40,7 @@ const ChangeQuantityOfBook: React.FC<{
   }
 
   async function decreaseQuantity() {
-    const url = `http://localhost:8080/api/admin/secure/decrease/book/quantity/?bookId=${book.id}`;
+    const url = `http://bookhive-env.eba-7rvhnjpe.eu-north-1.elasticbeanstalk.com/api/admin/secure/decrease/book/quantity/?bookId=${book.id}`;
     const requestOptions = {
       method: 'PUT',
       headers: {
@@ -58,7 +58,7 @@ const ChangeQuantityOfBook: React.FC<{
   }
 
   async function deleteBookFunction() {
-    const url = `http://localhost:8080/api/admin/secure/delete/book/?bookId=${book.id}`;
+    const url = `http://bookhive-env.eba-7rvhnjpe.eu-north-1.elasticbeanstalk.com/api/admin/secure/delete/book/?bookId=${book.id}`;
     const requestOptions = {
       method: 'DELETE',
       headers: {

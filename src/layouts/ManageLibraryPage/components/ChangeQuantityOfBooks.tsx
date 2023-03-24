@@ -17,7 +17,7 @@ const ChangeQuantityOfBooks = () => {
 
   useEffect(() => {
     const fetchBooks = async () => {
-      const baseUrl: string = `http://localhost:8080/api/books?page=${
+      const baseUrl: string = `http://bookhive-env.eba-7rvhnjpe.eu-north-1.elasticbeanstalk.com/api/books?page=${
         currentPage - 1
       }&size=${booksPerPage}`;
 
